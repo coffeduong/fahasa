@@ -372,10 +372,10 @@ var CryptoJS = CryptoJS || function(s, p) {
   r.HmacMD5 = t._createHmacHelper(q)
 })(Math);
 
+const SESSION_ID = "0664933e078691655126707d6f94d04a";
 
 makePostRequest();
 async function makePostRequest() {
-  const SESSION_ID = "0664933e078691655126707d6f94d04a";
   var ps = new PrivateSecure([32819,32820,32822,32825,32870,32870,32868,32867,32818,32868,32823,32825,32819,32823,32868,32816,32817,32816,32819,32869,32866,32824,32817,32866,32823,32869,32870,32824,32866,32821,32819,32868]);
   var tmp_header = ps.getHeader();
   var timestamp = tmp_header.t*1000;
