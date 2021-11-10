@@ -1,3 +1,6 @@
+const axios = require('axios');
+
+
 var PrivateSecure = function (t) {
   this.k = [], this.init = function(t) {
     this.k = t;
@@ -6,7 +9,7 @@ var PrivateSecure = function (t) {
     i = Intl.DateTimeFormat().resolvedOptions().timeZone;
     var e = Math.round((new Date).getTime() / 1e3);
     //i = "Asia/Saigon";
-    //e = 1636556233;
+    //e = 1636560477;
 
     return {
       hs: this.getPs(t + e),
@@ -14,8 +17,10 @@ var PrivateSecure = function (t) {
       tz: i
     }
   }, this.getPs = function(t) {
-    let i = t,
+    let i = t;
       e = this.gH();
+      //console.log(e);
+      e = "3469ffdc2d7937d0103eb81b7ef8b53d";
     return CryptoJS.MD5(i + e).toString()
   }, this.gH = function() {
     var t = "";
@@ -369,10 +374,61 @@ var CryptoJS = CryptoJS || function(s, p) {
   r.HmacMD5 = t._createHmacHelper(q)
 })(Math);
 
-const SESSION_ID = "";
-const TARGET = "";
+const SESSION_ID = "0664933e078691655126707d6f94d04a";
+//const TARGET = "b75e5cc0445b22be7ccacfc848663308";
+/*var private_secure = new PrivateSecure(SESSION_ID);
+var tmp_header = private_secure.getHeader();
+console.log(tmp_header);*/
 
-var private_secure = new PrivateSecure(SESSION_ID);
-var hs = private_secure.getHeader().hs;
-console.log(hs);
-console.log(TARGET == hs);
+
+makePostRequest();
+
+async function makePostRequest() {
+  var private_secure = new PrivateSecure(SESSION_ID);
+  var tmp_header = private_secure.getHeader();
+  var timestamp = tmp_header.t*1000;
+
+  let res = await axios({
+    "method": "POST",
+    "url": "https://www.fahasa.com/onestepcheckout/index/couponCode",
+    "headers": {
+      "t": tmp_header.t,
+      "tz": tmp_header.tz,
+      "hs": tmp_header.hs,
+      /*"hs": "1188c09b2538a8a1c9e06aff8c8cb60d",
+      "t": "1636558880",
+      "tz": "Asia/Saigon",*/
+
+      "cookie": "ves_added_cart=0; BPC2=84e87dde07a087ac6a41d7ddf742ff5e; _gcl_au=1.1.732409842.1636550517; " +
+        "_fbp=fb.1.1636550516988.865309729; frontend_cid=mziyJUh8QqC3ieaM; __stdf=0; " +
+        "_aff_network=accesstrade; _aff_sid=6u6rsii7mFk4sJXkFGf8yoFu2jVTx82ff2vxD62o86FUP0J2; " +
+        "utm_source=accesstrade; ves_added_cart=0; __stgeo=\"0\"; __stbpnenable=1; " +
+        "_gid=GA1.2.397500697.1636550518; bxSesT=MTYzNjU1MDUxNzkwMA%3D%3D; " +
+        "bxSesC=MTYzNjU1MDUxNzkwMA%3D%3D; " +
+        "boxx_token_id=NWQ3NjU1YTgtYjZjOS00MjE5LWIwNWMtZmRiNDlkNjBiMmE5; " +
+        "BPC2Referrer=https://www.fahasa.com/?utm_source=accesstrade&aff_sid=6u6rsii7mFk4sJXkFGf8yoFu2jVTx82ff2vxD62o86FUP0J2&attempt=1; " +
+        "_fbc=fb.1.1636550859862.IwAR3cTUz-DhbjLBm3KadgZiKl-3azmAVb2GhRTiKj19XEk9hsY4Pqq-FQX-8; " +
+        "frontend="+SESSION_ID+"; " +
+        "__stp={\"visit\":\"returning\",\"uuid\":\"5d7655a8-b6c9-4219-b05c-fdb49d60b2a9\",\"ck\":\"tunghm.bsn@gmail.com\"}; " +
+        "bxSegDetail=eyJieFNlc1QiOjE2MzY1NTA1MTc5MDAsInVzZXJUeXBlIjoicmV0dXJuaW5nIiwidXNlclJhbmRvbSI6MC44NjgwNjc2MTg1MTQwMTY4LCJwcnZNdiI6IjQxNiIsInB1Yk12IjoiYm94eCIsInVzZXJTZWciOiJfZGVmYXVsdCIsIm1vZGVsU2VnIjoiYm94eF9fZGVmYXVsdCJ9; " +
+        "__sts={\"sid\":"+timestamp+",\"tx\":"+timestamp+",\"url\":\"https%3A%2F%2Fwww.fahasa.com%2Fonestepcheckout%2Findex%2F\",\"pet\":"+timestamp+",\"set\":"+timestamp+"}; _ga_460L9JMC2G=GS1.1.1636556666.2.1.1636557884.0; _ga=GA1.2.1219012281.1636550517",
+
+    },
+    "data": "{\"sessionId\":\""+SESSION_ID+"\",\"couponCode\":\"FHSMC10V3\",\"apply\":1}"
+  })
+
+  console.log(res);
+
+}
+
+//"0664933e078691655126707d6f94d04a1636560477"
+//"3469ffdc2d7937d0103eb81b7ef8b53d"
+
+
+/*const text = "0664933e078691655126707d6f94d04a";
+var t="";
+for(let i=0;i<text.length;i++){
+  console.log(text[i] - (Math.pow(2, 14) << 1));
+  t += String.fromCharCode(text[i] - (Math.pow(2, 14) << 1));
+}*/
+//console.log(t);
