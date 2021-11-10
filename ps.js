@@ -1,10 +1,13 @@
-var PrivateSecure = function(t) {
+var PrivateSecure = function (t) {
   this.k = [], this.init = function(t) {
-    this.k = t
+    this.k = t;
   }, this.getHeader = function() {
-    let t = SESSION_ID,
-      i = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    let t = SESSION_ID;
+    i = Intl.DateTimeFormat().resolvedOptions().timeZone;
     var e = Math.round((new Date).getTime() / 1e3);
+    //i = "Asia/Saigon";
+    //e = 1636556233;
+
     return {
       hs: this.getPs(t + e),
       t: e,
@@ -365,3 +368,11 @@ var CryptoJS = CryptoJS || function(s, p) {
   r.MD5 = t._createHelper(q);
   r.HmacMD5 = t._createHmacHelper(q)
 })(Math);
+
+const SESSION_ID = "";
+const TARGET = "";
+
+var private_secure = new PrivateSecure(SESSION_ID);
+var hs = private_secure.getHeader().hs;
+console.log(hs);
+console.log(TARGET == hs);
