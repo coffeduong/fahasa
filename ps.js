@@ -1,6 +1,5 @@
 const axios = require('axios');
 
-
 var PrivateSecure = function (t) {
   this.k = [], this.init = function(t) {
     this.k = t;
@@ -33,7 +32,6 @@ var PrivateSecure = function (t) {
     if (2 === i.length) return i.pop().split(";").shift()
   }, this.init(t)
 };
-
 var CryptoJS = CryptoJS || function(s, p) {
   var m = {},
     l = m.lib = {},
@@ -374,18 +372,12 @@ var CryptoJS = CryptoJS || function(s, p) {
   r.HmacMD5 = t._createHmacHelper(q)
 })(Math);
 
-const SESSION_ID = "0664933e078691655126707d6f94d04a";
-//const TARGET = "b75e5cc0445b22be7ccacfc848663308";
-/*var private_secure = new PrivateSecure(SESSION_ID);
-var tmp_header = private_secure.getHeader();
-console.log(tmp_header);*/
-
 
 makePostRequest();
-
 async function makePostRequest() {
-  var private_secure = new PrivateSecure(SESSION_ID);
-  var tmp_header = private_secure.getHeader();
+  const SESSION_ID = "0664933e078691655126707d6f94d04a";
+  var ps = new PrivateSecure([32819,32820,32822,32825,32870,32870,32868,32867,32818,32868,32823,32825,32819,32823,32868,32816,32817,32816,32819,32869,32866,32824,32817,32866,32823,32869,32870,32824,32866,32821,32819,32868]);
+  var tmp_header = ps.getHeader();
   var timestamp = tmp_header.t*1000;
 
   let res = await axios({
@@ -395,10 +387,6 @@ async function makePostRequest() {
       "t": tmp_header.t,
       "tz": tmp_header.tz,
       "hs": tmp_header.hs,
-      /*"hs": "1188c09b2538a8a1c9e06aff8c8cb60d",
-      "t": "1636558880",
-      "tz": "Asia/Saigon",*/
-
       "cookie": "ves_added_cart=0; BPC2=84e87dde07a087ac6a41d7ddf742ff5e; _gcl_au=1.1.732409842.1636550517; " +
         "_fbp=fb.1.1636550516988.865309729; frontend_cid=mziyJUh8QqC3ieaM; __stdf=0; " +
         "_aff_network=accesstrade; _aff_sid=6u6rsii7mFk4sJXkFGf8yoFu2jVTx82ff2vxD62o86FUP0J2; " +
@@ -418,17 +406,4 @@ async function makePostRequest() {
   })
 
   console.log(res);
-
 }
-
-//"0664933e078691655126707d6f94d04a1636560477"
-//"3469ffdc2d7937d0103eb81b7ef8b53d"
-
-
-/*const text = "0664933e078691655126707d6f94d04a";
-var t="";
-for(let i=0;i<text.length;i++){
-  console.log(text[i] - (Math.pow(2, 14) << 1));
-  t += String.fromCharCode(text[i] - (Math.pow(2, 14) << 1));
-}*/
-//console.log(t);
