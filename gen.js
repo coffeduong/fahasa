@@ -355,6 +355,5 @@ function getPs(t){
 function gH() {
   var t = "";
   for (let i = 0; i < SESSION_ID.length; i++) t += String.fromCharCode(SESSION_ID[i] - (Math.pow(2, 14) << 1));
-  console.log('t: '+t);
   return t
 }
